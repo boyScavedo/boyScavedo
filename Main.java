@@ -1,194 +1,135 @@
-//Importing all the package required
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.*;
 
 
 public class Main implements ActionListener{
 
-	JFrame Frame;
-	JLabel Label;
-	JTextField textField; 
-	JButton[] numberButtons = new JButton[10];
-	JButton[] functionButtons = new JButton[8];
-	JButton addButton, subButton, mulButton, divButton;
-	JButton decButton, equButton, delButton, clrButton;
-	JPanel Panel;
+	// Input section
 	
-	Font myFONT = new Font("Ink Free", Font.BOLD, 17);
+	JFrame frame;
+	JPanel Header, Loginp1, buttons, Loginp2, Footer;
+	JLabel Label,Introduction, test, Username, Password;
+	JTextField nameField;
+	JPasswordField passField;
+	JButton[] functionButtons = new JButton[3];
+	JButton logButton, signButton, forButton;
+	ImageIcon Login = new ImageIcon("Signup.png");
+	ImageIcon User = new ImageIcon("User.png");
+	ImageIcon Lock = new ImageIcon("Lock.png");
 	
-	double num1 = 0;
-	double num2 = 0;
-	double result = 0;
-	double temp = 0;
-	
-	char Operator;
+	Font myFONT = new Font("Ink Free", Font.BOLD, 15);
+	Border border = BorderFactory.createRaisedBevelBorder();
+	Border border1 = BorderFactory.createLoweredBevelBorder();
 	
 	Main() {
 		
-		Frame = new JFrame("Calculator");
-		Frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Frame.setSize(400, 580);
-		Frame.setResizable(false);
-		Frame.setLayout(null);
+		frame = new JFrame("Online Library Management System"); //initiates a frame with title "Online Library Management System".
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //makes the close button to close the program instead of hiding it.
+		frame.setSize(440,580); //setting up the size of frame with 440 pixel by 580 pixel.
+		frame.setResizable(false); //disable the ability to change the size of the frame.
+		frame.setLocation(500, 80); //creates the frame on x = 500px and y = 80px.
+		frame.getContentPane().setBackground(Color.white); //changes the color of the frame.
+		frame.setAlwaysOnTop(true); //makes the frame to stay focused all time.
+		frame.setLayout(null); //makes everything else inside the frame customizable.
+		
+		Username = new JLabel();
+		Username.setFont(myFONT);
+		Username.setText("	 Username:");
+		Username.setIcon(User);
+		
+		Password = new JLabel();
+		Password.setFont(myFONT);
+		Password.setText("	 Password:");
+		Password.setIcon(Lock);
+		
+		test = new JLabel("");
+		test.setBounds(5,55,420,130);
+		test.setHorizontalAlignment(JLabel.CENTER);
+		test.setHorizontalTextPosition(JLabel.LEFT);
+		test.setIcon(Login);
+		
+		Introduction = new JLabel("Login/Signup Form");
+		Introduction.setBounds(10,200,420,40);
+		Introduction.setBorder(border1);
+		Introduction.setFont(myFONT);
+		Introduction.setOpaque(true);
+		Introduction.setHorizontalAlignment(JLabel.CENTER);
 		
 		Label = new JLabel();
-		Label.setBounds(50,0,300,50);
 		Label.setFont(myFONT);
-		Label.setText("Calculator by Jeevan Adhikari!");
+		Label.setText("Welcome to Online Library Management System");
+		Label.setVerticalAlignment(JLabel.TOP);
+		Label.setHorizontalAlignment(JLabel.CENTER);
 		
-		textField = new JTextField();
-		textField.setBounds(50, 70, 300, 50);
-		textField.setFont(myFONT);
-		textField.setEditable(false);
+		logButton = new JButton("Log-In");
+		signButton = new JButton("Sign-In");
 		
-		addButton = new JButton("+");
-		subButton = new JButton("-");
-		mulButton = new JButton("*");
-		divButton = new JButton("/");
-		decButton = new JButton(".");
-		equButton = new JButton("=");
-		delButton = new JButton("DEL");
-		clrButton = new JButton("C");
+		forButton = new JButton("Forgot Password");
+		forButton.setBounds(32,470,380,50);
 		
-		functionButtons[0] = addButton;
-		functionButtons[1] = subButton;
-		functionButtons[2] = mulButton;
-		functionButtons[3] = divButton;
-		functionButtons[4] = decButton;
-		functionButtons[5] = equButton;
-		functionButtons[6] = delButton;
-		functionButtons[7] = clrButton;
+		nameField = new JTextField();
+		nameField.setFont(myFONT);
 		
-		for(int i = 0; i < 8; i++) {
-			functionButtons[i].addActionListener(this);
-			functionButtons[i].setFont(myFONT);
-			functionButtons[i].setFocusable(false);
-		}
+		passField = new JPasswordField();
+		passField.setFont(myFONT);
+
+		Header = new JPanel();
+		Header.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+		Header.setBounds(10,10,420,40);
+		Header.setLayout(new GridLayout(1,1,10,10));
+		Header.setBackground(new Color(213,215,202));
 		
-		for(int i = 0; i < 10; i++) {
-			numberButtons[i] = new JButton(String.valueOf(i));
-			numberButtons[i].addActionListener(this);
-			numberButtons[i].setFont(myFONT);
-			numberButtons[i].setFocusable(false);
-		}
+		Header.add(Label);
 		
-		delButton.setBounds(50,480,150,50);
-		clrButton.setBounds(205,480,150,50);
+		buttons = new JPanel();
+		buttons.setBounds(10,410,420,50);
+		buttons.setLayout(new GridLayout(1,1,10,10));
 		
-		Panel = new JPanel();
-		Panel.setBounds(50,150,300,300);
-		Panel.setLayout(new GridLayout(4,4,10,10));
+		buttons.add(logButton);
+		buttons.add(signButton);
 		
-		Panel.add(numberButtons[1]);
-		Panel.add(numberButtons[2]);
-		Panel.add(numberButtons[3]);
-		Panel.add(addButton);
+		Loginp1 = new JPanel();
+		Loginp1.setBounds(10,270,420,50);
+		Loginp1.setBorder(new EmptyBorder(10,10,10,10));
+		Loginp1.setBackground(new Color(220,228,210));
+		Loginp1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		Loginp1.setLayout(new GridLayout(1,1,10,10));
 		
-		Panel.add(numberButtons[4]);
-		Panel.add(numberButtons[5]);
-		Panel.add(numberButtons[6]);
-		Panel.add(subButton);
+		Loginp1.add(Username);
+		Loginp1.add(nameField);
+
+		Loginp2 = new JPanel();
+		Loginp2.setBounds(10,330,420,50);
+		Loginp2.setBackground(new Color(220,228,210));
+		Loginp2.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		Loginp2.setLayout(new GridLayout(1,1,10,10));
 		
-		Panel.add(numberButtons[7]);
-		Panel.add(numberButtons[8]);
-		Panel.add(numberButtons[9]);
-		Panel.add(mulButton);
+		Loginp2.add(Password);
+		Loginp2.add(passField);
 		
-		Panel.add(decButton);
-		Panel.add(numberButtons[0]);
-		Panel.add(equButton);
-		Panel.add(divButton);
-		
-		
-		Frame.add(Panel);
-		Frame.add(delButton);
-		Frame.add(clrButton);
-		Frame.add(textField);
-		Frame.add(Label);
-		Frame.setVisible(true);
-		
+		frame.add(Header);
+		frame.add(Loginp1);
+		frame.add(Loginp2);
+		frame.add(Introduction);
+		frame.add(test);
+		frame.add(buttons);
+		frame.add(forButton);
+		frame.setVisible(true);
 	}
 	
-	
-	public static void main(String[] args) {
+	public static void main(String args[]) {
 		
-		Main calc = new Main();
-
+		Main obj = new Main();
+		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
 		
-		for(int i = 0; i < 10; i++) {
-			if(e.getSource() == numberButtons[i]) {
-				textField.setText(textField.getText().concat(String.valueOf(i)));
-			}
-		}
-		
-		if(e.getSource() == decButton) {
-			textField.setText(textField.getText().concat("."));
-		}
-		
-		if(e.getSource() == addButton) {
-			num1 = Double.parseDouble(textField.getText());
-			Operator = '+';
-			textField.setText("");
-		}
-		
-		if(e.getSource() == subButton) {
-			num1 = Double.parseDouble(textField.getText());
-			Operator = '-';
-			textField.setText("");
-		}
-
-		if(e.getSource() == mulButton) {
-			num1 = Double.parseDouble(textField.getText());
-			Operator = '*';
-			textField.setText("");
-		}
-		
-		if(e.getSource() == divButton) {
-			num1 = Double.parseDouble(textField.getText());
-			Operator = '/';
-			textField.setText("");
-		}
-		
-		if(e.getSource() == clrButton) {
-			textField.setText("");
-		}
-		
-		if(e.getSource() == delButton) {
-			String string = textField.getText();
-			textField.setText("");
-			for(int i = 0; i < string.length() - 1; i++) {
-				textField.setText(textField.getText()+string.charAt(i));
-			}
-			
-			}
-		
-		if(e.getSource() == equButton) {
-			num2 = Double.parseDouble(textField.getText());
-			
-			switch(Operator) {
-			
-			case '+':
-				result = num1 + num2;
-				break;
-			case '-':
-				result = num1 - num2;
-				break;
-			case '*':
-				result = num1 * num2;
-				break;
-			case '/':
-				result = num1 / num2;
-				break;
-			}
-			textField.setText(String.valueOf(result));
-			num1 = result;
-			
-		}
 	}
-
 }
