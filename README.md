@@ -1,8 +1,12 @@
-- 👋 Hi, I’m @boyScavedo
-- 👀 I’m interested in Java Programming.
-- 🌱 I’m currently learning Java Programming.
-- 💞️ I’m looking to collaborate on Java Programming.
-- 📫 How to reach me : - jeevanadhikaritech@gmail.com
+#Introduction
+- Name: Jeevan Adhikari
+- D.O.B.: 2005/12/05
+- Profession: Student of Bachelors in Computer Engineering
+##Specialities
+- Languages
+  - Proficient: Python, Web Dev(HTML, CSS)
+  - Intermediate: Java, C#, C++
+  - Basic: JS, Lua(Roblox), C, MySql 
 
 <!---
 boyScavedo/boyScavedo is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
