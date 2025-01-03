@@ -2,6 +2,8 @@
 - Name: Jeevan Adhikari
 - D.O.B.: 2005/12/05
 - Profession: Student of Bachelors in Computer Engineering
+## Projects
+- [Portfolio/My Website](https://github.com/boyScavedo/porfolio) - [Live Website](www.jeevanadhikari.com.np)
 ## Specialities
 - Languages
   - Proficient: Python, Web Dev(HTML, CSS)
